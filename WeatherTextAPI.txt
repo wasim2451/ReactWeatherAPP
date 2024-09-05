@@ -1,0 +1,53 @@
+import { useEffect, useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const [data, setData] = useState("null");
+  const [error, setError] = useState(null);
+  const city = "Kolkata";
+  // Weather Data --> data
+  useEffect(() => {
+    // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+    const apiKey = "0c1befbf0545cb008044679c9ece5c91";
+    // Change this to any city you want
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          console.log("NETWORK ERROR");
+          alert("Error. Try another City");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+        setError(null);
+      })
+      .catch((error) => {
+        setError(error.message);
+        console.error("Fetch Error", error);
+      });
+  }, [city]);
+  return (
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <div>
+        <h2>Weather Data for {city}</h2>
+        {data ? (
+          data.main && data.weather ? ( // Double-check that data.main and data.weather exist
+            <div>
+              <p>Temperature: {data.main.temp} Celcius</p>
+              <p>Weather: {data.weather[0].description}</p>
+              <p>Feels Like : {data.main.feels_like}</p>
+            </div>
+          ) : (
+            <p>Data is not complete.</p>
+          )
+        ) : (
+          !error && <p>Loading...</p>
+        )}
+      </div>
+    </div>
+  );
+}

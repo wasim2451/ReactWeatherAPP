@@ -1,0 +1,78 @@
+function ChatAI({ weatherData }) {
+        //Data from API to be stored in 
+        const [recommendations, setRecommendations] = useState('');
+        useEffect(() => {
+            const fetchRecommendations = async () => {
+                const chatCompletion = await groq.chat.completions.create({
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a Weather Recommendations',
+                        },
+                        {
+                            role: 'user',
+                            content: `Suggest me current Weather Recommendations of my Place with emojis in bullets. I live in ${city} .Give Response in HTML paragraph and bullet format make sure each sentence takes only one line`,
+                        },
+                    ],
+                    model: 'llama3-8b-8192b',
+                    temperature: 1,
+                    max_tokens: 100,
+                    top_p: 1,
+                    stream: true,
+                    stop: null,
+                });
+
+                for await (const chunk of chatCompletion) {
+                    setRecommendations((prev) => prev + (chunk.choices[0]?.delta?.content || ''));
+                }
+                console.log(recommendations)
+            };
+
+            fetchRecommendations();
+
+
+
+
+
+//
+
+
+
+const res=[
+                `<p className='uppercase font-bold'>${weatherData.city}</p>${recommendations}`
+            ]
+            let speed=15;
+            let textPosition=0;
+            const typewriter=()=>{
+                // Ekhane substring Create hoche !
+                document.getElementById('text-Container').innerHTML=
+                res[0].substring(0,textPosition)+"<span id='blinker'>\u25ae</span>";
+                // Increementing textPosition
+                textPosition++;
+                if(textPosition>res[0].length){
+                    document.getElementById('blinker').remove();
+                }
+                else{
+                    setTimeout(typewriter,speed)
+                }
+            }
+            typewriter();
+
+//
+             console.log(weatherData.speed)
+        return (
+            <>
+            <div className='bg-[rgb(255,246,234,0.4)] rounded-2xl p-[10%] mt-[10px] min-h-[50%]'>
+            {  weatherData.city?( <>
+                <div className='container-text'></div>
+                <p id='text-Container'></p>
+                </>
+                ):(
+                    <p className='text-[25px]'>LOADING . . .</p>
+                )
+            
+            }
+            </div>
+            </>
+        )
+}
