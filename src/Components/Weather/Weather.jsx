@@ -14,7 +14,7 @@ useEffect(() => {
         return;
     }
 // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-const apiKey = "0c1befbf0545cb008044679c9ece5c91";
+const apiKey = "USE_YOUR_OWN_API_KEY";
 // Change this to any city you want
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 fetch(url)
