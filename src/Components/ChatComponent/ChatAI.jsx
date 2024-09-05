@@ -106,7 +106,7 @@ function ChatAI({ weatherData }) {
 
     return (
         <>
-            <div className='bg-[rgb(255,246,234,0.3)] rounded-2xl p-[10%] mt-[10px] min-h-[50%]'>
+            <div className='bg-[rgb(255,246,234,0.5)] rounded-2xl p-[10%] mt-[10px] min-h-[50%]'>
                 {weatherData.city === data ? (
                     <>
                         <div className='container-text'></div>
