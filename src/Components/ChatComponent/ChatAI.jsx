@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Groq from 'groq-sdk';
 
 const groq = new Groq({
-    apiKey: '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',
+    apiKey: 'USE_YOUR-OWN_KEY',
     dangerouslyAllowBrowser: true,
 });
 
